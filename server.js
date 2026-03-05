@@ -4,24 +4,29 @@ require("dotenv").config();
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: "*"
-}));
+// CORS configuration
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://online-exam-system-frontend.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);
 
 app.use(express.json());
 
-// Import routes
+// Routes
 const authRoutes = require("./routes/authRoutes");
 const examRoutes = require("./routes/examRoutes");
 const resultRoutes = require("./routes/resultRoutes");
 
-// Use routes
 app.use("/api/auth", authRoutes);
 app.use("/api/exams", examRoutes);
 app.use("/api/results", resultRoutes);
 
-// Test route
 app.get("/", (req, res) => {
   res.send("Online Examination System API running");
 });
